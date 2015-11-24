@@ -18,7 +18,6 @@
 #define __PRINTF_H__
 
 #if defined (ARDUINO) && !defined (__arm__) && !defined(__ARDUINO_X86__)
-
 int serial_putc( char c, FILE * )
 {
   Serial.write( c );
@@ -30,6 +29,21 @@ void printf_begin(void)
 {
   fdevopen( &serial_putc, 0 );
 }
+#elif defined (__AVR)
+#include <uart.h>
+
+int serial_putc( char c, FILE * )
+{
+  uart_putc( c );
+
+  return c;
+}
+
+void printf_begin(void)
+{
+  fdevopen( &serial_putc, 0 );
+}
+
 
 #elif defined (__arm__)
 

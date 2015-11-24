@@ -580,6 +580,9 @@ bool RF24::begin(void)
 {
 
   uint8_t setup=0;
+#if defined (START_TIMER)
+  __start_timer();
+#endif
 
   #if defined (RF24_LINUX)
 

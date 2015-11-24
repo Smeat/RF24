@@ -25,6 +25,11 @@
   #define rf24_max(a,b) (a>b?a:b)
   #define rf24_min(a,b) (a<b?a:b)
 
+#if !defined(ARDUINO) && defined(__AVR)
+	#define BARE_AVR
+#endif
+
+
   #if defined SPI_HAS_TRANSACTION && !defined SPI_UART && !defined SOFTSPI
     #define RF24_SPI_TRANSACTIONS
   #endif
@@ -53,7 +58,9 @@
 
   #include "utility/Teensy/RF24_arch_config.h"  
 //Everything else
-#else 
+#elif defined (BARE_AVR)
+ #include "utility/AVR/RF24_arch_config.h"
+#else
 
   #include <Arduino.h>
   
