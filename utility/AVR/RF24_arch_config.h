@@ -54,7 +54,7 @@
 #endif
 #endif
 
-typedef uint16_t prog_uint16_t;
+//typedef uint16_t prog_uint16_t;
 #define PSTR(x) (x)
 #define printf_P printf
 #define strlen_P strlen
@@ -74,6 +74,11 @@ typedef uint16_t prog_uint16_t;
 #define delay(milisec) __msleep(milisec)
 #define delayMicroseconds(usec) __usleep(usec)
 #define millis() __millis()
+
+#ifdef INT_ENABLE
+#define attachInterrupt(pin, function, state) AVR_io::attachInterrupt(pin, function, state)
+#define detachInterrupt(pin) AVR_io::detachInterrupt(pin)
+#endif
 
 #define byte uint8_t
 

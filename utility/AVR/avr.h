@@ -2,6 +2,7 @@
 #define	AVR_H
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 
 #include <stdio.h>
 
@@ -14,6 +15,13 @@ static const int DIRECTION_IN = 0;
 
 static const int OUTPUT_HIGH = 1;
 static const int OUTPUT_LOW = 0;
+
+#ifdef INT_ENABLE
+#ifdef __AVR_ATmega328P__
+static void (*int0)();
+static void (*int1)();
+#endif
+#endif
 
 /**
  * Similar to Arduino pinMode(pin,mode);
@@ -35,6 +43,13 @@ static int read(uint8_t pin, volatile uint8_t* port);
 * @param port
 */
 static void write(uint8_t pin,int value, volatile uint8_t* port);
+
+#ifdef INT_ENABLE
+
+static void attachInterrupt(uint8_t pin, void (*func)(), const int type);
+
+static void detachInterrupt(uint8_t pin);
+#endif
 
 };
 #endif

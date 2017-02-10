@@ -15,3 +15,5 @@ Session.vim
 *.so
 *.dylib
 .DS_Store
+/Release/
+/Release_Atmega8/
