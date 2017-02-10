@@ -34,7 +34,7 @@ RF24 radio(7,8);
 // Channel info
 //
 
-const uint8_t num_channels = 128;
+const uint8_t num_channels = 126;
 uint8_t values[num_channels];
 
 //
@@ -61,6 +61,8 @@ void setup(void)
   // Get into standby mode
   radio.startListening();
   radio.stopListening();
+
+  radio.printDetails();
 
   // Print out header, high then low digit
   int i = 0;
@@ -102,14 +104,13 @@ void loop(void)
 
       // Listen for a little
       radio.startListening();
-      delayMicroseconds(225);
-      
+      delayMicroseconds(128);
+      radio.stopListening();
 
       // Did we get a carrier?
       if ( radio.testCarrier() ){
         ++values[i];
       }
-      radio.stopListening();
     }
   }
 
@@ -117,7 +118,7 @@ void loop(void)
   int i = 0;
   while ( i < num_channels )
   {
-    printf("%x",min(0xf,values[i]&0xf));
+    printf("%x",min(0xf,values[i]));
     ++i;
   }
   Serial.println();
