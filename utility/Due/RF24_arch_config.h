@@ -30,7 +30,7 @@
 
   #define printf_P printf
   #define strlen_P strlen
-  #define PRIPSTR "%s"
+  #define PRIPSTR_RF24 "%s"
 
 
 #endif // __RF24_CONFIG_H__

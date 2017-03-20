@@ -64,7 +64,7 @@ typedef uint16_t prog_uint16_t;
 //#define strlen_P strlen
 //#define PROGMEM
 //#define pgm_read_word(p) (*(p)) 
-#define PRIPSTR "%s"
+#define PRIPSTR_RF24 "%s"
 //#define pgm_read_byte(p) (*(p))
 
 // Function, constant map as a result of migrating from Arduino

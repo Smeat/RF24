@@ -20,15 +20,15 @@
   #endif	
   // GCC a Arduino Missing
   #define _BV(x) (1<<(x))
-  #define pgm_read_word(p) (*(p))
-  #define pgm_read_byte(p) (*(p))
+  #define pgm_read_word_rf24(p) (*(p))
+  #define pgm_read_byte_rf24(p) (*(p))
   
   //typedef uint16_t prog_uint16_t;
-  #define PSTR(x) (x)
+  #define PSTR_RF24(x) (x)
   #define printf_P printf
   #define strlen_P strlen
-  #define PROGMEM
-  #define PRIPSTR "%s"
+  #define PROGMEM_RF24
+  #define PRIPSTR_RF24 "%s"
 
   #ifdef SERIAL_DEBUG
 	#define IF_SERIAL_DEBUG(x) ({x;})

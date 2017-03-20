@@ -44,24 +44,16 @@
 #define IF_SERIAL_DEBUG(x)
 #endif
 
-// Avoid spurious warnings
-#if 1
-#if ! defined( NATIVE ) && defined( ARDUINO )
-#undef PROGMEM
-#define PROGMEM __attribute__(( section(".progmem.data") ))
-#undef PSTR
-#define PSTR(s) (__extension__({static const char __c[] PROGMEM = (s); &__c[0];}))
-#endif
-#endif
-
-//typedef uint16_t prog_uint16_t;
-#define PSTR(x) (x)
 #define printf_P printf
 #define strlen_P strlen
-#define PROGMEM
-#define pgm_read_word(p) (*(p))
-#define PRIPSTR "%s"
-#define pgm_read_byte(p) (*(p))
+
+#define PSTR_RF24(x) (x)
+
+#define PROGMEM_RF24
+#define pgm_read_word_rf24(p) (*(p))
+#define pgm_read_byte_rf24(addr) (*(const unsigned char *)(addr))
+
+#define PRIPSTR_RF24 "%s"
 
 // Function, constant map as a result of migrating from Arduino
 #define LOW AVR_io::OUTPUT_LOW

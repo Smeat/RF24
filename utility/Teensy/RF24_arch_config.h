@@ -24,7 +24,7 @@
   #endif
   
 
-  #define PRIPSTR "%s"
+  #define PRIPSTR_RF24 "%s"
 
 
 

@@ -130,35 +130,35 @@
 // Arduino DUE is arm and does not include avr/pgmspace
 #if defined (ARDUINO_ARCH_ESP8266)
 
-  #define PSTR(x) (x)
+  #define PSTR_RF24(x) (x)
   #define printf Serial.printf
   #define sprintf(...) os_sprintf( __VA_ARGS__ )
   #define printf_P printf
   #define strlen_P strlen  
-  #define PROGMEM
-  #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
-  #define pgm_read_word(p) (*(p))
-  #define PRIPSTR "%s"
+  #define PROGMEM_RF24
+  #define pgm_read_byte_rf24(addr) (*(const unsigned char *)(addr))
+  #define pgm_read_word_rf24(p) (*(p))
+  #define PRIPSTR_RF24 "%s"
 
 #elif defined(ARDUINO) && ! defined(__arm__) && !defined (__ARDUINO_X86__) || defined(XMEGA)
 	#include <avr/pgmspace.h>
-	#define PRIPSTR "%S"
+	#define PRIPSTR_RF24 "%S"
 #else
   #if ! defined(ARDUINO) // This doesn't work on Arduino DUE
 	typedef char const char;
   #else // Fill in pgm_read_byte that is used, but missing from DUE
-	#define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+	#define pgm_read_byte_rf24(addr) (*(const unsigned char *)(addr))
   #endif
 
 
   typedef uint16_t prog_uint16_t;
-  #define PSTR(x) (x)
+  #define PSTR_RF24(x) (x)
   #define printf_P printf
   #define strlen_P strlen
-  #define PROGMEM
-  #define pgm_read_word(p) (*(p))
+  #define PROGMEM_RF24
+  #define pgm_read_word_rf24(p) (*(p))
 
-  #define PRIPSTR "%s"
+  #define PRIPSTR_RF24 "%s"
 
 #endif
 

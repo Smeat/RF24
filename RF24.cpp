@@ -188,7 +188,7 @@ uint8_t RF24::write_register(uint8_t reg, uint8_t value)
 {
   uint8_t status;
 
-  IF_SERIAL_DEBUG(printf_P(PSTR("write_register(%02x,%02x)\r\n"),reg,value));
+  IF_SERIAL_DEBUG(printf_P(PSTR_RF24("write_register(%02x,%02x)\r\n"),reg,value));
 
   #if defined (RF24_LINUX)
     beginTransaction();
@@ -352,7 +352,7 @@ uint8_t RF24::get_status(void)
 #if !defined (MINIMAL)
 void RF24::print_status(uint8_t status)
 {
-  printf_P(PSTR("STATUS\t\t = 0x%02x RX_DR=%x TX_DS=%x MAX_RT=%x RX_P_NO=%x TX_FULL=%x\r\n"),
+  printf_P(PSTR_RF24("STATUS\t\t = 0x%02x RX_DR=%x TX_DS=%x MAX_RT=%x RX_P_NO=%x TX_FULL=%x\r\n"),
            status,
            (status & _BV(RX_DR))?1:0,
            (status & _BV(TX_DS))?1:0,
@@ -366,7 +366,7 @@ void RF24::print_status(uint8_t status)
 
 void RF24::print_observe_tx(uint8_t value)
 {
-  printf_P(PSTR("OBSERVE_TX=%02x: POLS_CNT=%x ARC_CNT=%x\r\n"),
+  printf_P(PSTR_RF24("OBSERVE_TX=%02x: POLS_CNT=%x ARC_CNT=%x\r\n"),
            value,
            (value >> PLOS_CNT) & 0x0F,
            (value >> ARC_CNT) & 0x0F
@@ -378,15 +378,15 @@ void RF24::print_observe_tx(uint8_t value)
 void RF24::print_byte_register(const char* name, uint8_t reg, uint8_t qty)
 {
   //char extra_tab = strlen_P(name) < 8 ? '\t' : 0;
-  //printf_P(PSTR(PRIPSTR"\t%c ="),name,extra_tab);
+  //printf_P(PSTR_RF24(PRIPSTR_RF24"\t%c ="),name,extra_tab);
   #if defined (RF24_LINUX)
     printf("%s\t =", name);
   #else
-    printf_P(PSTR(PRIPSTR"\t ="),name);
+    printf_P(PSTR_RF24(PRIPSTR_RF24"\t ="),name);
   #endif
   while (qty--)
-    printf_P(PSTR(" 0x%02x"),read_register(reg++));
-  printf_P(PSTR("\r\n"));
+    printf_P(PSTR_RF24(" 0x%02x"),read_register(reg++));
+  printf_P(PSTR_RF24("\r\n"));
 }
 
 /****************************************************************************/
@@ -397,20 +397,20 @@ void RF24::print_address_register(const char* name, uint8_t reg, uint8_t qty)
   #if defined (RF24_LINUX)
     printf("%s\t =",name);
   #else
-    printf_P(PSTR(PRIPSTR"\t ="),name);
+    printf_P(PSTR_RF24(PRIPSTR_RF24"\t ="),name);
   #endif
   while (qty--)
   {
     uint8_t buffer[addr_width];
     read_register(reg++,buffer,sizeof buffer);
 
-    printf_P(PSTR(" 0x"));
+    printf_P(PSTR_RF24(" 0x"));
     uint8_t* bufptr = buffer + sizeof buffer;
     while( --bufptr >= buffer )
-      printf_P(PSTR("%02x"),*bufptr);
+      printf_P(PSTR_RF24("%02x"),*bufptr);
   }
 
-  printf_P(PSTR("\r\n"));
+  printf_P(PSTR_RF24("\r\n"));
 }
 #endif
 /****************************************************************************/
@@ -464,33 +464,33 @@ uint8_t RF24::getPayloadSize(void)
 
 #if !defined (MINIMAL)
 
-static const char rf24_datarate_e_str_0[] PROGMEM = "1MBPS";
-static const char rf24_datarate_e_str_1[] PROGMEM = "2MBPS";
-static const char rf24_datarate_e_str_2[] PROGMEM = "250KBPS";
-static const char * const rf24_datarate_e_str_P[] PROGMEM = {
+static const char rf24_datarate_e_str_0[] PROGMEM_RF24 = "1MBPS";
+static const char rf24_datarate_e_str_1[] PROGMEM_RF24 = "2MBPS";
+static const char rf24_datarate_e_str_2[] PROGMEM_RF24 = "250KBPS";
+static const char * const rf24_datarate_e_str_P[] PROGMEM_RF24 = {
   rf24_datarate_e_str_0,
   rf24_datarate_e_str_1,
   rf24_datarate_e_str_2,
 };
-static const char rf24_model_e_str_0[] PROGMEM = "nRF24L01";
-static const char rf24_model_e_str_1[] PROGMEM = "nRF24L01+";
-static const char * const rf24_model_e_str_P[] PROGMEM = {
+static const char rf24_model_e_str_0[] PROGMEM_RF24 = "nRF24L01";
+static const char rf24_model_e_str_1[] PROGMEM_RF24 = "nRF24L01+";
+static const char * const rf24_model_e_str_P[] PROGMEM_RF24 = {
   rf24_model_e_str_0,
   rf24_model_e_str_1,
 };
-static const char rf24_crclength_e_str_0[] PROGMEM = "Disabled";
-static const char rf24_crclength_e_str_1[] PROGMEM = "8 bits";
-static const char rf24_crclength_e_str_2[] PROGMEM = "16 bits" ;
-static const char * const rf24_crclength_e_str_P[] PROGMEM = {
+static const char rf24_crclength_e_str_0[] PROGMEM_RF24 = "Disabled";
+static const char rf24_crclength_e_str_1[] PROGMEM_RF24 = "8 bits";
+static const char rf24_crclength_e_str_2[] PROGMEM_RF24 = "16 bits" ;
+static const char * const rf24_crclength_e_str_P[] PROGMEM_RF24 = {
   rf24_crclength_e_str_0,
   rf24_crclength_e_str_1,
   rf24_crclength_e_str_2,
 };
-static const char rf24_pa_dbm_e_str_0[] PROGMEM = "PA_MIN";
-static const char rf24_pa_dbm_e_str_1[] PROGMEM = "PA_LOW";
-static const char rf24_pa_dbm_e_str_2[] PROGMEM = "PA_HIGH";
-static const char rf24_pa_dbm_e_str_3[] PROGMEM = "PA_MAX";
-static const char * const rf24_pa_dbm_e_str_P[] PROGMEM = {
+static const char rf24_pa_dbm_e_str_0[] PROGMEM_RF24 = "PA_MIN";
+static const char rf24_pa_dbm_e_str_1[] PROGMEM_RF24 = "PA_LOW";
+static const char rf24_pa_dbm_e_str_2[] PROGMEM_RF24 = "PA_HIGH";
+static const char rf24_pa_dbm_e_str_3[] PROGMEM_RF24 = "PA_MAX";
+static const char * const rf24_pa_dbm_e_str_P[] PROGMEM_RF24 = {
   rf24_pa_dbm_e_str_0,
   rf24_pa_dbm_e_str_1,
   rf24_pa_dbm_e_str_2,
@@ -547,22 +547,22 @@ void RF24::printDetails(void)
 
   print_status(get_status());
 
-  print_address_register(PSTR("RX_ADDR_P0-1"),RX_ADDR_P0,2);
-  print_byte_register(PSTR("RX_ADDR_P2-5"),RX_ADDR_P2,4);
-  print_address_register(PSTR("TX_ADDR\t"),TX_ADDR);
+  print_address_register(PSTR_RF24("RX_ADDR_P0-1"),RX_ADDR_P0,2);
+  print_byte_register(PSTR_RF24("RX_ADDR_P2-5"),RX_ADDR_P2,4);
+  print_address_register(PSTR_RF24("TX_ADDR\t"),TX_ADDR);
 
-  print_byte_register(PSTR("RX_PW_P0-6"),RX_PW_P0,6);
-  print_byte_register(PSTR("EN_AA\t"),EN_AA);
-  print_byte_register(PSTR("EN_RXADDR"),EN_RXADDR);
-  print_byte_register(PSTR("RF_CH\t"),RF_CH);
-  print_byte_register(PSTR("RF_SETUP"),RF_SETUP);
-  print_byte_register(PSTR("CONFIG\t"),NRF_CONFIG);
-  print_byte_register(PSTR("DYNPD/FEATURE"),DYNPD,2);
+  print_byte_register(PSTR_RF24("RX_PW_P0-6"),RX_PW_P0,6);
+  print_byte_register(PSTR_RF24("EN_AA\t"),EN_AA);
+  print_byte_register(PSTR_RF24("EN_RXADDR"),EN_RXADDR);
+  print_byte_register(PSTR_RF24("RF_CH\t"),RF_CH);
+  print_byte_register(PSTR_RF24("RF_SETUP"),RF_SETUP);
+  print_byte_register(PSTR_RF24("CONFIG\t"),NRF_CONFIG);
+  print_byte_register(PSTR_RF24("DYNPD/FEATURE"),DYNPD,2);
 
-  printf_P(PSTR("Data Rate\t = " PRIPSTR "\r\n"),pgm_read_word(&rf24_datarate_e_str_P[getDataRate()]));
-  printf_P(PSTR("Model\t\t = " PRIPSTR "\r\n"),pgm_read_word(&rf24_model_e_str_P[isPVariant()]));
-  printf_P(PSTR("CRC Length\t = " PRIPSTR "\r\n"),pgm_read_word(&rf24_crclength_e_str_P[getCRCLength()]));
-  printf_P(PSTR("PA Power\t = " PRIPSTR "\r\n"),  pgm_read_word(&rf24_pa_dbm_e_str_P[getPALevel()]));
+  printf_P(PSTR_RF24("Data Rate\t = " PRIPSTR_RF24 "\r\n"),pgm_read_word_rf24(&rf24_datarate_e_str_P[getDataRate()]));
+  printf_P(PSTR_RF24("Model\t\t = " PRIPSTR_RF24 "\r\n"),pgm_read_word_rf24(&rf24_model_e_str_P[isPVariant()]));
+  printf_P(PSTR_RF24("CRC Length\t = " PRIPSTR_RF24 "\r\n"),pgm_read_word_rf24(&rf24_crclength_e_str_P[getCRCLength()]));
+  printf_P(PSTR_RF24("PA Power\t = " PRIPSTR_RF24 "\r\n"),  pgm_read_word_rf24(&rf24_pa_dbm_e_str_P[getPALevel()]));
 
 }
 
@@ -724,7 +724,7 @@ void RF24::startListening(void)
 }
 
 /****************************************************************************/
-static const uint8_t child_pipe_enable[] PROGMEM =
+static const uint8_t child_pipe_enable[] PROGMEM_RF24 =
 {
   ERX_P0, ERX_P1, ERX_P2, ERX_P3, ERX_P4, ERX_P5
 };
@@ -749,7 +749,7 @@ void RF24::stopListening(void)
 	powerUp();
   }
   #endif
-  write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[0]))); // Enable RX on pipe0
+  write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(pgm_read_byte_rf24(&child_pipe_enable[0]))); // Enable RX on pipe0
   
   //delayMicroseconds(100);
 
@@ -785,7 +785,7 @@ void RF24::powerUp(void)
 #if defined (FAILURE_HANDLING) || defined (RF24_LINUX)
 void RF24::errNotify(){
 	#if defined (SERIAL_DEBUG) || defined (RF24_LINUX)
-	  printf_P(PSTR("RF24 HARDWARE FAIL: Radio not responding, verify pin connections, wiring, etc.\r\n"));
+	  printf_P(PSTR_RF24("RF24 HARDWARE FAIL: Radio not responding, verify pin connections, wiring, etc.\r\n"));
 	#endif
 	#if defined (FAILURE_HANDLING)
 	failureDetected = 1;
@@ -1144,11 +1144,11 @@ void RF24::openWritingPipe(const uint8_t *address)
 }
 
 /****************************************************************************/
-static const uint8_t child_pipe[] PROGMEM =
+static const uint8_t child_pipe[] PROGMEM_RF24 =
 {
   RX_ADDR_P0, RX_ADDR_P1, RX_ADDR_P2, RX_ADDR_P3, RX_ADDR_P4, RX_ADDR_P5
 };
-static const uint8_t child_payload_size[] PROGMEM =
+static const uint8_t child_payload_size[] PROGMEM_RF24 =
 {
   RX_PW_P0, RX_PW_P1, RX_PW_P2, RX_PW_P3, RX_PW_P4, RX_PW_P5
 };
@@ -1167,16 +1167,16 @@ void RF24::openReadingPipe(uint8_t child, uint64_t address)
   {
     // For pipes 2-5, only write the LSB
     if ( child < 2 )
-      write_register(pgm_read_byte(&child_pipe[child]), reinterpret_cast<const uint8_t*>(&address), addr_width);
+      write_register(pgm_read_byte_rf24(&child_pipe[child]), reinterpret_cast<const uint8_t*>(&address), addr_width);
     else
-      write_register(pgm_read_byte(&child_pipe[child]), reinterpret_cast<const uint8_t*>(&address), 1);
+      write_register(pgm_read_byte_rf24(&child_pipe[child]), reinterpret_cast<const uint8_t*>(&address), 1);
 
-    write_register(pgm_read_byte(&child_payload_size[child]),payload_size);
+    write_register(pgm_read_byte_rf24(&child_payload_size[child]),payload_size);
 
     // Note it would be more efficient to set all of the bits for all open
     // pipes at once.  However, I thought it would make the calling code
     // more simple to do it this way.
-    write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[child])));
+    write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(pgm_read_byte_rf24(&child_pipe_enable[child])));
   }
 }
 
@@ -1207,16 +1207,16 @@ void RF24::openReadingPipe(uint8_t child, const uint8_t *address)
   {
     // For pipes 2-5, only write the LSB
     if ( child < 2 ){
-      write_register(pgm_read_byte(&child_pipe[child]), address, addr_width);
+      write_register(pgm_read_byte_rf24(&child_pipe[child]), address, addr_width);
     }else{
-      write_register(pgm_read_byte(&child_pipe[child]), address, 1);
+      write_register(pgm_read_byte_rf24(&child_pipe[child]), address, 1);
 	}
-    write_register(pgm_read_byte(&child_payload_size[child]),payload_size);
+    write_register(pgm_read_byte_rf24(&child_payload_size[child]),payload_size);
 
     // Note it would be more efficient to set all of the bits for all open
     // pipes at once.  However, I thought it would make the calling code
     // more simple to do it this way.
-    write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[child])));
+    write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(pgm_read_byte_rf24(&child_pipe_enable[child])));
 
   }
 }
@@ -1225,7 +1225,7 @@ void RF24::openReadingPipe(uint8_t child, const uint8_t *address)
 
 void RF24::closeReadingPipe( uint8_t pipe )
 {
-  write_register(EN_RXADDR,read_register(EN_RXADDR) & ~_BV(pgm_read_byte(&child_pipe_enable[pipe])));
+  write_register(EN_RXADDR,read_register(EN_RXADDR) & ~_BV(pgm_read_byte_rf24(&child_pipe_enable[pipe])));
 }
 
 /****************************************************************************/

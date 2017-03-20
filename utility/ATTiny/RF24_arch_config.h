@@ -39,7 +39,7 @@
   #endif
 
   #include <avr/pgmspace.h>
-  #define PRIPSTR "%S"
+  #define PRIPSTR_RF24 "%S"
   
   
 
