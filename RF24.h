@@ -63,6 +63,9 @@ private:
 #if defined (MRAA)
   GPIO gpio;
 #endif
+#if defined (STM32F1)
+  SPIClass SPI; //TODO: fix SPI mess (every architecture)
+#endif
 
   uint16_t ce_pin; /**< "Chip Enable" pin, activates the RX or TX role */
   uint16_t csn_pin; /**< SPI Chip select */
