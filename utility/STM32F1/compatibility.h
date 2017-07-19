@@ -22,22 +22,15 @@
 #ifndef COMPATIBLITY_H
 #define	COMPATIBLITY_H
 
+#include <stdint.h>
+#include "stm32f1xx_hal_conf.h"
+
 #define START_TIMER
-
-#ifdef	__cplusplus
-extern "C" {
-#endif
 	
-#include <stddef.h>
-
-void __msleep(int milisec);
-void __usleep(int microsec);
+void __msleep(uint32_t milisec);
+void __usleep(uint32_t microsec);
 void __start_timer();
 unsigned long __millis();
-
-#ifdef	__cplusplus
-}
-#endif
 
 #endif	/* COMPATIBLITY_H */
 

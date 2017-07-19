@@ -27,7 +27,6 @@
 #define __ARCH_CONFIG_H__
 
 #include <stddef.h>
-#include "compatibility.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -35,18 +34,26 @@
 #include "stm32f1xx_hal_conf.h"
 #include "stm32.h"
 
+extern "C" {
+ #include "compatibility.h"
+ #include "xprintf.h"
+}
+
+
+
+
 #define _BV(x) (1<<(x))
 
 #define _SPI SPI
 
-#undef SERIAL_DEBUG
+//#define SERIAL_DEBUG
 #ifdef SERIAL_DEBUG
 #define IF_SERIAL_DEBUG(x) ({x;})
 #else
 #define IF_SERIAL_DEBUG(x)
 #endif
 
-#define printf_P printf
+#define printf_P xprintf
 #define strlen_P strlen
 
 #define PSTR_RF24(x) (x)

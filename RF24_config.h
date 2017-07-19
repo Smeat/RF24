@@ -44,7 +44,7 @@
  #include "utility/AVR/RF24_arch_config.h"
  //STM32F1
 #elif defined (STM32F1)
-  #include "utility/STM32F1/RF24_arch_config.h" 
+  #include "utility/STM32F1/RF24_arch_config.h"
 #elif ( !defined (ARDUINO) ) // Any non-arduino device is handled via configure/Makefile
 
   // The configure script detects device and copies the correct includes.h file to /utility/includes.h
